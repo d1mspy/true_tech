@@ -13,12 +13,14 @@ class WithId:
     id = Column(UUID(as_uuid=True), default=uuid.uuid4, primary_key=True)
 
 
+# класс для добавления поля created_at
 class With_created_at():
     __abstract__ = True
     
     created_at = Column(DateTime(timezone=True), default=datetime.utcnow, nullable=False)
     
-    
+
+# класс для добавления поля updated_at
 class With_updated_at():
     __abstract__ = True
     

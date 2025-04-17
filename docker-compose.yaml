@@ -11,6 +11,9 @@ services:
       context: backend
       dockerfile: Dockerfile
 
+    depends_on:
+      - postgres
+
     networks:
       - devnet
 
@@ -23,6 +26,25 @@ services:
     networks:
       - devnet
 
+  postgres:
+
+    image: postgres:17.0
+
+    env_file: .env
+
+    environment:
+      POSTGRES_USER: ${APP_PG__USER}
+      POSTGRES_PASSWORD: ${APP_PG__PASSWORD}
+      POSTGRES_DB: ${APP_PG__DATABASE}
+      PGDATA: /var/lib/postgresql/data/pgdata
+
+    volumes:
+      - "./backend/init.sql:/docker-entrypoint-initdb.d/init.sql"
+      - "./data/pg/:/var/lib/postgresql/data/"
+
+    networks:
+      - devnet
+  
   nginx:
     image: nginx:1.25.4-alpine
 
